@@ -100,47 +100,47 @@ pipeline {
                }
           }
 
-          // stage('Build') {
-          //      steps {
-          //           script {
-          //                echo "Realizando el build del proyecto..."
-          //                def buildResult = sh script: 'npm run build', returnStatus: true
+          stage('Build') {
+               steps {
+                    script {
+                         echo "Realizando el build del proyecto..."
+                         def buildResult = sh script: 'npm run build', returnStatus: true
 
-          //                if (buildResult != 0) {
-          //                     error "El proceso de build falló. Por favor, revisa los errores antes de continuar."
-          //                }
-          //                echo "Build realizado correctamente. El proyecto está listo para desplegarse."
-          //           }
-          //      }
-          // }
+                         if (buildResult != 0) {
+                              error "El proceso de build falló. Por favor, revisa los errores antes de continuar."
+                         }
+                         echo "Build realizado correctamente. El proyecto está listo para desplegarse."
+                    }
+               }
+          }
 
-          // stage('Deploy to Vercel') {
-          //      when {
-          //           expression {
-          //                currentBuild.result == null || currentBuild.result == 'SUCCESS'
-          //           }
-          //      }
-          //      steps {
-          //           script {
-          //                withCredentials([string(credentialsId: 'vercel-deploy-token', variable: 'VERCEL_TOKEN')]) {
-          //                     echo "Iniciando el despliegue en Vercel..."
-          //                     def deployResult = sh(
-          //                          script: """
-          //                          chmod +x ./jenkinsScripts/deployToVercel.sh
-          //                          sh ./jenkinsScripts/deployToVercel.sh $VERCEL_TOKEN
-          //                          """,
-          //                          returnStatus: true
-          //                     )
-          //                     if (deployResult != 0) {
-          //                          writeFile file: 'deploy_to_vercel_result.txt', text: 'Error'
-          //                          error "El despliegue en Vercel falló. Revisa el log para más detalles."
-          //                     } else {
-          //                          writeFile file: 'deploy_to_vercel_result.txt', text: 'Correcte'
-          //                     }
-          //                }
-          //           }
-          //      }
-          // }
+          stage('Deploy to Vercel') {
+               when {
+                    expression {
+                         currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                    }
+               }
+               steps {
+                    script {
+                         withCredentials([string(credentialsId: 'vercel-deploy-token', variable: 'VERCEL_TOKEN')]) {
+                              echo "Iniciando el despliegue en Vercel..."
+                              def deployResult = sh(
+                                   script: """
+                                   chmod +x ./jenkinsScripts/deployToVercel.sh
+                                   sh ./jenkinsScripts/deployToVercel.sh $VERCEL_TOKEN
+                                   """,
+                                   returnStatus: true
+                              )
+                              if (deployResult != 0) {
+                                   writeFile file: 'deploy_to_vercel_result.txt', text: 'Error'
+                                   error "El despliegue en Vercel falló. Revisa el log para más detalles."
+                              } else {
+                                   writeFile file: 'deploy_to_vercel_result.txt', text: 'Correcte'
+                              }
+                         }
+                    }
+               }
+          }
 
           // stage('Notificació') {
           //      steps {
