@@ -91,6 +91,8 @@ Otro script realiza el commit y push de cambios relevantes al repositorio.
 
 El pipeline automatiza todo el flujo de trabajo, desde la validación del código hasta el despliegue final. Los desarrolladores reciben notificaciones en Telegram con un resumen como este:
 
+![Notificación de Telegram](./telegram.jpeg)
+
 ## RESULTADO DE LOS ÚLTIMOS TESTS
 
 ![Success](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
